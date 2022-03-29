@@ -28,7 +28,7 @@ urlpatterns = [
     path('mdeditor/', include('mdeditor.urls')),
 
     # 添加ico
-    path("favicon.ico", RedirectView.as_view(url='static/favicon.ico')),
+    path("favicon.ico", RedirectView.as_view(url='static/logo.ico')),
     path("robots.txt", RedirectView.as_view(url='static/robots.txt')),
 ]
 
