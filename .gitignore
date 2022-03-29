@@ -60,7 +60,8 @@ coverage.xml
 logging/
 local_settings.py
 db.sqlite3
-djangoBlog/settings/
+/djangoBlog/settings
+/STATIC
 # Flask stuff:
 instance/
 .webassets-cache
@@ -109,3 +110,4 @@ uploads/
 # mypy
 .mypy_cache/
 © 2019 GitHub, Inc.
+
