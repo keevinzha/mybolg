@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/lightgallery.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/static/css/my.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     {% block css %}{% endblock %}
     {% block js %}{% endblock %}
     <script src="/static/js/jquery-2.2.0.min.js">
@@ -375,6 +376,10 @@
 <script src="/static/js/prism.js"></script>
 <script>
     $('.bg-cover').css('background-image', 'url(/static/image/0.png)');
+</script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
 </script>
 </body>
 </html>
