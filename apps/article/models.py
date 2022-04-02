@@ -193,7 +193,7 @@ class Site(models.Model):
                                  default="个猫博客，喵工智能，Linux，强化学习")
     domain_url = models.CharField(max_length=128, verbose_name='站点地址', default="https://www.keevinzha.com")
     site_avatar = models.CharField(max_length=128, verbose_name='站点地址',
-                                   default="")
+                                   default="https://image.3001.net/images/20220328/1648466703_62419b0fc95cb60f9ae39.jpeg")
 
     about_name = models.CharField(max_length=32, verbose_name='about名称', default="keevinzha")
     about_desc = models.CharField(max_length=128, verbose_name='about简介', default="一只猫")
