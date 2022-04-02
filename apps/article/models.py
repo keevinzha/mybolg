@@ -175,28 +175,28 @@ class Site(models.Model):
     站点基本配置信息
 
     """
-    site_name = models.CharField(max_length=32, verbose_name='站点名称', default="CharmCode")
-    site_year = models.CharField(max_length=16, verbose_name='年份', default="2020")
+    site_name = models.CharField(max_length=32, verbose_name='站点名称', default="keevinzha的猫窝")
+    site_year = models.CharField(max_length=16, verbose_name='年份', default="2022")
 
-    site_title = models.CharField(max_length=64, verbose_name='站点标题', default="Just For Fun")
-    type_chinese = models.CharField(max_length=64, verbose_name='中文座右铭', default="向着未来而生")
-    type_english = models.CharField(max_length=64, verbose_name='英文左座右铭', default="Being toward future")
-    home_title = models.CharField(max_length=64, verbose_name='主页站点', default="CharmCode.cn")
+    site_title = models.CharField(max_length=64, verbose_name='站点标题', default="Live in Nyatophia")
+    type_chinese = models.CharField(max_length=64, verbose_name='中文座右铭', default="一猫又一猫")
+    type_english = models.CharField(max_length=64, verbose_name='英文左座右铭', default="One cat just leads to another")
+    home_title = models.CharField(max_length=64, verbose_name='主页站点', default="keevinzha.com")
 
-    my_mail = models.CharField(max_length=64, verbose_name='我的邮箱地址', default="wg_python@163.com")
-    site_icp = models.CharField(max_length=64, verbose_name='备案号', default="鄂ICP备20007968号")
+    my_mail = models.CharField(max_length=64, verbose_name='我的邮箱地址', default="keevinzha@sina.cn")
+    site_icp = models.CharField(max_length=64, verbose_name='备案号', default="nan")
     site_icp_url = models.CharField(max_length=64, verbose_name='备案号超链接', default="http://beian.miit.gov.cn")
 
     site_keywords = models.CharField(max_length=128, verbose_name='站点描述(meta显示)',
-                                     default="charmcode.com,代码的魅力,web前端,Python后端,小程序,安卓逆向,Python爬虫,渗透测试")
+                                     default="keevinzha.com猫窝")
     site_desc = models.CharField(max_length=128, verbose_name='站点描述(meta显示)',
-                                 default="领略代码的魅力,分享web前端,html5,css3,Python后端代码分享,了解认知前沿技术")
-    domain_url = models.CharField(max_length=128, verbose_name='站点地址', default="https://www.charmcode.cn")
+                                 default="个猫博客，喵工智能，Linux，强化学习")
+    domain_url = models.CharField(max_length=128, verbose_name='站点地址', default="https://www.keevinzha.com")
     site_avatar = models.CharField(max_length=128, verbose_name='站点地址',
-                                   default="https://image.3001.net/images/20200504/1588558613_5eaf7b159c8e9.jpeg")
+                                   default="")
 
-    about_name = models.CharField(max_length=32, verbose_name='about名称', default="王小右")
-    about_desc = models.CharField(max_length=128, verbose_name='about简介', default="兴趣使然的编程爱好者")
+    about_name = models.CharField(max_length=32, verbose_name='about名称', default="keevinzha")
+    about_desc = models.CharField(max_length=128, verbose_name='about简介', default="一只猫")
 
     def avatar_data(self):
         return format_html(
