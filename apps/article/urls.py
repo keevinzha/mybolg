@@ -44,7 +44,7 @@ urlpatterns = [
     path('search/', Search.as_view(), name='search'),
 
     # github第三方登录
-    path('oauth/redirect', GithubOauth.as_view(), name='github_oauth'),
+    path('github/oauth/redirect', GithubOauth.as_view(), name='github_oauth'),
 
     # 评论 CommentView
     path('article/comment/', CommentView.as_view(), name='comment'),

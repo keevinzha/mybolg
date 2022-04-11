@@ -5,7 +5,7 @@ import random
 import logging
 import datetime
 import traceback
-import mistune
+import mistune, re
 import requests
 
 from django.http import JsonResponse
@@ -114,8 +114,10 @@ class Detail(View):
         article.viewed()
 
         # 渲染markdown
-        mk = mistune.Markdown()
-        output = mk(article.content)
+        #mk = mistune.Markdown()
+        #output = mk(article.content)
+        mk = MarkdownWithMath(renderer=MathRendererMixin())
+        output = mk(r"{}".format(article.content))
 
         # github 认证地址
         github_auth_url = f"https://github.com/login/oauth/authorize?client_id={settings.GITHUB_CLIENT_ID}&redirect_uri={settings.GITHUB_CALL_ADD}"
@@ -451,7 +453,81 @@ class GithubOauth(View):
         }, timeout=30)
         return res.json()
 
+class MathBlockGrammar(mistune.BlockGrammar):
+    block_math = re.compile(r"^\$\$(.*?)\$\$", re.DOTALL)
+    latex_environment = re.compile(r"^\\begin\{([a-z]*\*?)\}(.*?)\\end\{\1\}", re.DOTALL)
 
+class MathBlockLexer(mistune.BlockLexer):
+    default_rules = ['block_math', 'latex_environment'] + mistune.BlockLexer.default_rules
+
+    def __init__(self, rules=None, **kwargs):
+        if rules is None:
+            rules = MathBlockGrammar()
+        super(MathBlockLexer, self).__init__(rules, **kwargs)
+
+    def parse_block_math(self, m):
+        """Parse a $$math$$ block"""
+        self.tokens.append({
+            'type': 'block_math',
+            'text': m.group(1)
+        })
+
+    def parse_latex_environment(self, m):
+        self.tokens.append({
+            'type': 'latex_environment',
+            'name': m.group(1),
+            'text': m.group(2)
+        })
+
+class MathInlineGrammar(mistune.InlineGrammar):
+    math = re.compile(r"^\$(.+?)\$", re.DOTALL)
+    block_math = re.compile(r"^\$\$(.+?)\$\$", re.DOTALL)
+    text = re.compile(r'^[\s\S]+?(?=[\\<!\[_*`~\$]|https?://| {2,}\n|$)')
+
+class MathInlineLexer(mistune.InlineLexer):
+    default_rules = ['block_math', 'math'] + mistune.InlineLexer.default_rules
+
+    def __init__(self, renderer, rules=None, **kwargs):
+        if rules is None:
+            rules = MathInlineGrammar()
+        super(MathInlineLexer, self).__init__(renderer, rules, **kwargs)
+
+    def output_math(self, m):
+        return self.renderer.inline_math(m.group(1))
+
+    def output_block_math(self, m):
+        return self.renderer.block_math(m.group(1))
+
+class MathRendererMixin(mistune.Renderer):
+    def block_code(self, code, lang=None):
+        code = code.rstrip('\n')
+        if not lang:
+            lang = 'text'
+        code = mistune.escape(code, quote=True, smart_amp=False)
+        return '<pre class="language-%s"><code class="language-%s">%s\n</code></pre>\n' % (lang, lang, code)
+
+    def block_math(self, text):
+        return '$$%s$$' % text
+
+    def latex_environment(self, name, text):
+        return r'\begin{%s}%s\end{%s}' % (name, text, name)
+
+    def inline_math(self, text):
+        return '$%s$' % text
+
+class MarkdownWithMath(mistune.Markdown):
+    def __init__(self, renderer, **kwargs):
+        if 'inline' not in kwargs:
+            kwargs['inline'] = MathInlineLexer
+        if 'block' not in kwargs:
+            kwargs['block'] = MathBlockLexer
+        super(MarkdownWithMath, self).__init__(renderer, **kwargs)
+
+    def output_block_math(self):
+        return self.renderer.block_math(self.token['text'])
+
+    def output_latex_environment(self):
+        return self.renderer.latex_environment(self.token['name'], self.token['text'])
 class CommentView(View):
     """
     评论
