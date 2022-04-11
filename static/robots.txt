@@ -1,4 +1,4 @@
-# hello! If you would like to crawl this site contact us at wg_python@163.com.
+# hello! If you would like to crawl this site contact me at keevinzha@sina.cn.
 
 User-agent: *
 Disallow: /xauth*
