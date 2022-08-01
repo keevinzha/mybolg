@@ -201,7 +201,7 @@ class CategoryView(View):
         categories = Category.fetch_all_category()
 
         try:
-            articles = Category.objects.filter(active=True).get(name_url=name_url).article_set.filter(is_open=True, tag__active=True).all()#修改
+            articles = Category.objects.filter(active=True).get(name_url=name_url).article_set.filter(is_open=True).all()#修改
         except Category.DoesNotExist:
             return render(request, '404.html')
 
